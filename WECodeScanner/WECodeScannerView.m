@@ -178,20 +178,16 @@
                     CGRectContainsPoint(self.matchView.bounds, bottomLeftPoint) &&
                     CGRectContainsPoint(self.matchView.bounds, bottomRightPoint))
                 {
+                    [self stop];
+                    _timer = [NSTimer scheduledTimerWithTimeInterval:self.quietPeriodAfterMatch target:self selector:@selector(start) userInfo:nil repeats:NO];
+                    self.lastDetectionDate = [NSDate date];
+                    
                     [self.matchView setFoundMatchWithTopLeftPoint:topLeftPoint
                                     topRightPoint:topRightPoint
                                   bottomLeftPoint:bottomLeftPoint
                                  bottomRightPoint:bottomRightPoint];
-                } else {
-                    foundMatch = NO;
+                    [self.delegate scannerView:self didReadCode:readableObject.stringValue];
                 }
-            }
-            
-            if (foundMatch) {
-                [self stop];
-                _timer = [NSTimer scheduledTimerWithTimeInterval:self.quietPeriodAfterMatch target:self selector:@selector(start) userInfo:nil repeats:NO];
-                self.lastDetectionDate = [NSDate date];
-                [self.delegate scannerView:self didReadCode:readableObject.stringValue];
             }
         }
     }
