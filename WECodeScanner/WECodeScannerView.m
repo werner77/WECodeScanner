@@ -22,6 +22,8 @@
 
 @implementation WECodeScannerView {
     NSTimer *_timer;
+    BOOL _scanning;
+    BOOL _wasScanning;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -66,8 +68,24 @@
         self.matchView = [[WECodeScannerMatchView alloc] init];
         [self addSubview:self.matchView];
         self.quietPeriodAfterMatch = 2.0;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(deactivate)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:[UIApplication sharedApplication]];
+        
+        // Register for notification that app did enter foreground
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(activate)
+                                                     name:UIApplicationWillEnterForegroundNotification
+                                                   object:[UIApplication sharedApplication]];
+        
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setMetadataObjectTypes:(NSArray *)metaDataObjectTypes {
@@ -87,26 +105,41 @@
 }
 
 - (void)start {
-    [self.captureSession startRunning];
-    
-    if ([self.delegate respondsToSelector:@selector(scannerViewDidStartScanning:)]) {
-        [self.delegate scannerViewDidStartScanning:self];
+    if (!_scanning) {
+        _scanning = YES;
+        [self.matchView reset];
+        [self.captureSession startRunning];
+        
+        if ([self.delegate respondsToSelector:@selector(scannerViewDidStartScanning:)]) {
+            [self.delegate scannerViewDidStartScanning:self];
+        }
     }
+    
 }
 
 - (void)stop {
-    [_timer invalidate];
-    _timer = nil;
-    [self.captureSession stopRunning];
-    
-    if ([self.delegate respondsToSelector:@selector(scannerViewDidStopScanning:)]) {
-        [self.delegate scannerViewDidStopScanning:self];
+    if (_scanning) {
+        _scanning = NO;
+        [_timer invalidate];
+        _timer = nil;
+        [self.captureSession stopRunning];
+        
+        if ([self.delegate respondsToSelector:@selector(scannerViewDidStopScanning:)]) {
+            [self.delegate scannerViewDidStopScanning:self];
+        }
     }
 }
 
-- (void)restartScanning {
-    [self.matchView reset];
-    [self start];
+- (void)deactivate {
+    _wasScanning = _scanning;
+    [self stop];
+}
+
+- (void)activate {
+    if (_wasScanning) {
+        [self start];
+        _wasScanning = NO;
+    }
 }
 
 - (CGPoint)pointFromArray:(NSArray *)points atIndex:(NSUInteger)index {
@@ -156,7 +189,7 @@
             
             if (foundMatch) {
                 [self stop];
-                _timer = [NSTimer scheduledTimerWithTimeInterval:self.quietPeriodAfterMatch target:self selector:@selector(restartScanning) userInfo:nil repeats:NO];
+                _timer = [NSTimer scheduledTimerWithTimeInterval:self.quietPeriodAfterMatch target:self selector:@selector(start) userInfo:nil repeats:NO];
                 self.lastDetectionDate = [NSDate date];
                 [self.delegate scannerView:self didReadCode:readableObject.stringValue];
             }

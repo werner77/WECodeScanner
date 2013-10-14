@@ -8,6 +8,7 @@
 
 #import "WEViewController.h"
 #import "WECodeScannerView.h"
+#import "WESoundHelper.h"
 
 @interface WEViewController ()<WECodeScannerViewDelegate>
 
@@ -40,6 +41,15 @@
     self.codeScannerView.delegate = self;
     [self.view addSubview:self.codeScannerView];
     [self.view addSubview:self.codeLabel];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.codeScannerView stop];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.codeScannerView start];
 }
 
@@ -62,6 +72,8 @@
 - (void)scannerView:(WECodeScannerView *)scannerView didReadCode:(NSString*)code {
     NSLog(@"Scanned code: %@", code);
     self.codeLabel.text = [NSString stringWithFormat:@"Scanned code: %@", code];
+    
+    [self performSelector:@selector(beep) withObject:nil afterDelay:0.1];
 }
 
 - (void)scannerViewDidStartScanning:(WECodeScannerView *)scannerView {
@@ -70,6 +82,12 @@
 
 - (void)scannerViewDidStopScanning:(WECodeScannerView *)scannerView {
     
+}
+
+#pragma mark - Private
+
+- (void)beep {
+    [WESoundHelper playSoundFromFile:@"BEEP.mp3" fromBundle:[NSBundle mainBundle] asAlert:YES];
 }
 
 @end

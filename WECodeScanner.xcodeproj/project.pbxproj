@@ -24,6 +24,8 @@
 		7445619F18083EE200CB9639 /* WECodeScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7445619E18083EE200CB9639 /* WECodeScannerTests.m */; };
 		744561AD18083FE700CB9639 /* WECodeScannerMatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 744561A918083FE700CB9639 /* WECodeScannerMatchView.m */; };
 		744561AE18083FE700CB9639 /* WECodeScannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 744561AA18083FE700CB9639 /* WECodeScannerView.m */; };
+		744561B2180BEB1000CB9639 /* BEEP.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 744561B1180BEB1000CB9639 /* BEEP.mp3 */; };
+		744561BD180BEB6400CB9639 /* WESoundHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 744561BC180BEB6400CB9639 /* WESoundHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,9 @@
 		744561AA18083FE700CB9639 /* WECodeScannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WECodeScannerView.m; sourceTree = "<group>"; };
 		744561AB18083FE700CB9639 /* WECodeScannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WECodeScannerView.h; sourceTree = "<group>"; };
 		744561AC18083FE700CB9639 /* WECodeScannerMatchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WECodeScannerMatchView.h; sourceTree = "<group>"; };
+		744561B1180BEB1000CB9639 /* BEEP.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BEEP.mp3; sourceTree = "<group>"; };
+		744561BB180BEB6400CB9639 /* WESoundHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WESoundHelper.h; sourceTree = "<group>"; };
+		744561BC180BEB6400CB9639 /* WESoundHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WESoundHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,11 +125,14 @@
 		7445617618083EE200CB9639 /* WECodeScanner */ = {
 			isa = PBXGroup;
 			children = (
+				744561B0180BEAED00CB9639 /* Resources */,
 				744561A818083EF400CB9639 /* Implementation */,
 				7445617F18083EE200CB9639 /* WEAppDelegate.h */,
 				7445618018083EE200CB9639 /* WEAppDelegate.m */,
 				7445618218083EE200CB9639 /* Main_iPhone.storyboard */,
 				7445618518083EE200CB9639 /* Main_iPad.storyboard */,
+				744561BB180BEB6400CB9639 /* WESoundHelper.h */,
+				744561BC180BEB6400CB9639 /* WESoundHelper.m */,
 				7445618818083EE200CB9639 /* WEViewController.h */,
 				7445618918083EE200CB9639 /* WEViewController.m */,
 				7445618B18083EE200CB9639 /* Images.xcassets */,
@@ -171,6 +179,14 @@
 				744561A918083FE700CB9639 /* WECodeScannerMatchView.m */,
 			);
 			name = Implementation;
+			sourceTree = "<group>";
+		};
+		744561B0180BEAED00CB9639 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				744561B1180BEB1000CB9639 /* BEEP.mp3 */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,6 +268,7 @@
 			files = (
 				7445618718083EE200CB9639 /* Main_iPad.storyboard in Resources */,
 				7445618C18083EE200CB9639 /* Images.xcassets in Resources */,
+				744561B2180BEB1000CB9639 /* BEEP.mp3 in Resources */,
 				7445618418083EE200CB9639 /* Main_iPhone.storyboard in Resources */,
 				7445617B18083EE200CB9639 /* InfoPlist.strings in Resources */,
 			);
@@ -275,6 +292,7 @@
 				7445618A18083EE200CB9639 /* WEViewController.m in Sources */,
 				7445618118083EE200CB9639 /* WEAppDelegate.m in Sources */,
 				744561AD18083FE700CB9639 /* WECodeScannerMatchView.m in Sources */,
+				744561BD180BEB6400CB9639 /* WESoundHelper.m in Sources */,
 				744561AE18083FE700CB9639 /* WECodeScannerView.m in Sources */,
 				7445617D18083EE200CB9639 /* main.m in Sources */,
 			);
@@ -495,6 +513,7 @@
 				744561A418083EE200CB9639 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		744561A518083EE200CB9639 /* Build configuration list for PBXNativeTarget "WECodeScannerTests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +522,7 @@
 				744561A718083EE200CB9639 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
