@@ -89,7 +89,16 @@
 }
 
 - (void)setMetadataObjectTypes:(NSArray *)metaDataObjectTypes {
-    [self.metadataOutput setMetadataObjectTypes:metaDataObjectTypes];
+	NSArray *availableTypes = [self.metadataOutput availableMetadataObjectTypes];
+	
+	NSMutableArray *finalObjectTypes = [NSMutableArray arrayWithCapacity:metaDataObjectTypes.count];
+	for (NSString *objectType in metaDataObjectTypes) {
+		if ([availableTypes containsObject:objectType]) {
+			[finalObjectTypes addObject:objectType];
+		}
+	}
+	
+	[self.metadataOutput setMetadataObjectTypes:finalObjectTypes];
 }
 
 - (void)layoutSubviews {
